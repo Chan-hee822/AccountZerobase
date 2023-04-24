@@ -11,8 +11,8 @@ spring:
     console:
       enabled: true
   jpa:
-    defer-datasource-initialization: true
     database-platform: H2
+    defer-datasource-initialization: true
     hibernate:
       ddl-auto: create-drop
     open-in-view: false
@@ -20,3 +20,7 @@ spring:
       hibernate:
         format_sql: true
         show_sql: true
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:data.sql
