@@ -11,18 +11,18 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RedisRepositoryConfig {        // 레디스에 접근하기 위한 클라이언트
 
-    @Value("${spring.redis.host}")
-    private String redisHost;
+	@Value("${spring.redis.host}")
+	private String redisHost;
 
-    @Value("${spring.redis.port}")
-    private int redisPort;
+	@Value("${spring.redis.port}")
+	private int redisPort;
 
-    @Bean
-    public RedissonClient redissonClient() {
-        Config config = new Config();
-        config.useSingleServer().setAddress("redis://" + redisHost + ":" + redisPort);
+	@Bean
+	public RedissonClient redissonClient() {
+		Config config = new Config();
+		config.useSingleServer().setAddress("redis://" + redisHost + ":" + redisPort);
 
-        return Redisson.create(config);
-    }
+		return Redisson.create(config);
+	}
 
 }

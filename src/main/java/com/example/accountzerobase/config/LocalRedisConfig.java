@@ -9,26 +9,26 @@ import javax.annotation.PreDestroy;
 
 @Configuration
 public class LocalRedisConfig {
-    @Value("${spring.redis.port}") // 밑에 redisPort 에 값 담아줌. yml에 있는
-    private int redisPort;
+	@Value("${spring.redis.port}") // 밑에 redisPort 에 값 담아줌. yml에 있는
+	private int redisPort;
 
-    private RedisServer redisServer;
+	private RedisServer redisServer;
 
-    @PostConstruct
-    public void startRedis() {
+	@PostConstruct
+	public void startRedis() {
 //        redisServer = RedisServer.builder()
 //                .port(redisPort)
 //                .setting("maxmemory 128M")
 //                .build();
-        redisServer = new RedisServer(redisPort);
-        redisServer.start();
-    }
+		redisServer = new RedisServer(redisPort);
+		redisServer.start();
+	}
 
-    @PreDestroy
-    public void stopRedis() {
-        if(redisServer != null) {
-            redisServer.stop();
-        }
-    }
+	@PreDestroy
+	public void stopRedis() {
+		if (redisServer != null) {
+			redisServer.stop();
+		}
+	}
 
 }

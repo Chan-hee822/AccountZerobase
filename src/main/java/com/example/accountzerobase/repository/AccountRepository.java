@@ -2,11 +2,9 @@ package com.example.accountzerobase.repository;
 
 import com.example.accountzerobase.domain.Account;
 import com.example.accountzerobase.domain.AccountUser;
-import com.example.accountzerobase.dto.AccountDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 
@@ -17,4 +15,6 @@ public interface AccountRepository extends JpaRepository<Account, Long> { // pkì
 	Optional<Account> findFirstByOrderByIdDesc();
 
 	Integer countByAccountUser(AccountUser accountUser);
+
+	Optional<Account> findByAccountNumber(String AccountNumber);
 }

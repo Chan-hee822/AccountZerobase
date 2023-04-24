@@ -3,6 +3,7 @@ package com.example.accountzerobase.controller;
 import com.example.accountzerobase.domain.Account;
 import com.example.accountzerobase.dto.AccountDto;
 import com.example.accountzerobase.dto.CreateAccount;
+import com.example.accountzerobase.dto.DeleteAccount;
 import com.example.accountzerobase.service.AccountService;
 import com.example.accountzerobase.service.RedisTestService;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,19 @@ public class AccountController {
                 accountService.createAccount(
                         request.getUserId(),
                         request.getInitialBalance()
+                )
+        );
+    }
+
+    @DeleteMapping("/account")
+    public DeleteAccount.Response deleteAccount(
+            @RequestBody @Valid DeleteAccount.Request request
+    ) {
+
+        return DeleteAccount.Response.from(
+                accountService.deleteAccount(
+                        request.getUserId(),
+                        request.getAccountNumber()
                 )
         );
     }
