@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AccountDto {
+public class AccountDto {			// controller와 service간 응답을 주고 받을 때
 	private Long userId;
 	private String accountNumber;
 	private Long balance;
@@ -22,6 +22,7 @@ public class AccountDto {
 		return AccountDto.builder()
 				.userId(account.getAccountUser().getId())
 				.accountNumber(account.getAccountNumber())
+				.balance(account.getBalance())
 				.registeredAt(account.getRegisteredAt())
 				.unRegisteredAt(account.getUnRegisteredAt())
 				.build();

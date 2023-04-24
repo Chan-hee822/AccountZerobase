@@ -2,6 +2,7 @@ package com.example.accountzerobase.controller;
 
 import com.example.accountzerobase.domain.Account;
 import com.example.accountzerobase.dto.AccountDto;
+import com.example.accountzerobase.dto.AccountInfo;
 import com.example.accountzerobase.dto.CreateAccount;
 import com.example.accountzerobase.dto.DeleteAccount;
 import com.example.accountzerobase.service.AccountService;
@@ -10,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 // 외부에서는 컨트롤러로만 접속을 하고 컨트롤러는 서비스로 접속, 서비스는 레파지토리로 접속을하는 계층 구조
@@ -43,6 +46,19 @@ public class AccountController {
                         request.getAccountNumber()
                 )
         );
+    }
+
+    @GetMapping("/account")
+    public List<AccountInfo> getAccountByUserId(
+            @RequestParam("user_id") Long userId
+    ){
+        return accountService.getAccountsByUserId(userId)
+                .stream().map(accountDto ->
+                        AccountInfo.builder()
+                        .accountNumber(accountDto.getAccountNumber())
+                        .balance(accountDto.getBalance())
+                        .build())
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/get-lock")
