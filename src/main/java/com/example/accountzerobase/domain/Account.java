@@ -4,27 +4,23 @@ import com.example.accountzerobase.exception.AccountException;
 import com.example.accountzerobase.type.AccountStatus;
 import com.example.accountzerobase.type.ErrorCode;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import lombok.experimental.SuperBuilder;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 // 일종의 설정 클래스, 설정 파일
 // 클래스 처럼 보이지만 Account 라는 테이블을 하나 만드는 것이다.
-public class Account {
-	@Id             //--pk설정할 때.
-	@GeneratedValue
-	private Long id;
-
+public class Account extends BaseEntity {
 	@ManyToOne
 	private AccountUser accountUser;
 	private String accountNumber;
@@ -36,20 +32,15 @@ public class Account {
 	private LocalDateTime registeredAt;
 	private LocalDateTime unRegisteredAt;
 
-	@CreatedDate
-	private LocalDateTime createdAt;
-	@LastModifiedDate
-	private LocalDateTime updatedAt;
-
 	public void useBalance(Long amount) {
-		if (amount > balance){
+		if (amount > balance) {
 			throw new AccountException(ErrorCode.AMOUNT_EXCEED_BALANCE);
 		}
 		balance -= amount;
 	}
 
 	public void cancelBalance(Long amount) {
-		if (amount < 0){
+		if (amount < 0) {
 			throw new AccountException(ErrorCode.INVALID_REQUEST);
 		}
 		balance += amount;
