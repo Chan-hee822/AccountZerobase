@@ -3,6 +3,7 @@ package com.example.accountzerobase.service;
 
 import com.example.accountzerobase.domain.Account;
 import com.example.accountzerobase.domain.AccountUser;
+import com.example.accountzerobase.domain.Transaction;
 import com.example.accountzerobase.dto.TransactionDto;
 import com.example.accountzerobase.exception.AccountException;
 import com.example.accountzerobase.repository.AccountRepository;
@@ -10,15 +11,21 @@ import com.example.accountzerobase.repository.AccountUserRepository;
 import com.example.accountzerobase.repository.TransactionRepository;
 import com.example.accountzerobase.type.AccountStatus;
 import com.example.accountzerobase.type.ErrorCode;
+import com.example.accountzerobase.type.TransactionResultType;
+import com.example.accountzerobase.type.TransactionType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 import static com.example.accountzerobase.type.ErrorCode.*;
+import static com.example.accountzerobase.type.TransactionResultType.*;
+import static com.example.accountzerobase.type.TransactionType.*;
 
 @Slf4j
 @Service
@@ -38,10 +45,13 @@ public class TransactionService {
 		AccountUser user = accountUserRepository.findById(userId)
 				.orElseThrow(() -> new AccountException(USER_NOT_FOUND));
 		Account account = accountRepository.findByAccountNumber(accountNumber)
-						.orElseThrow(() -> new AccountException(ACCOUNT_NOT_FOUND));
+				.orElseThrow(() -> new AccountException(ACCOUNT_NOT_FOUND));
 
 		validateUseBalance(user, account, amount);
 
+		account.useBalance(amount);
+
+		return TransactionDto.fromEntity(saveAndGetTransaction(S, account, amount));
 	}
 
 	private void validateUseBalance(AccountUser user, Account account, Long amount) {
@@ -54,5 +64,28 @@ public class TransactionService {
 		if(account.getBalance() < amount){
 			throw new AccountException(AMOUNT_EXCEED_BALANCE);
 		}
+	}
+
+	@Transactional
+	public void saveFailedUseTransaction(String accountNumber, Long amount) {
+		Account account = accountRepository.findByAccountNumber(accountNumber)
+				.orElseThrow(() -> new AccountException(ACCOUNT_NOT_FOUND));
+
+		saveAndGetTransaction(F, account, amount);
+	}
+	private Transaction saveAndGetTransaction(
+			TransactionResultType transactionResultType, Account account, Long amount) {
+		return transactionRepository.save(
+				Transaction.builder()
+						.transactionType(USE)
+						.transactionResultType(transactionResultType)
+						.account(account)
+						.amount(amount)
+						.balanceSnapshot(account.getBalance())
+						.transactionId(
+								UUID.randomUUID().toString().replace("-", ""))
+						.transactedAt(LocalDateTime.now())
+						.build()
+		);
 	}
 }
