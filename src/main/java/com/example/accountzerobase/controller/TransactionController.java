@@ -1,7 +1,7 @@
 package com.example.accountzerobase.controller;
 
 
-import com.example.accountzerobase.dto.TransactionDto;
+import com.example.accountzerobase.dto.CancelBalance;
 import com.example.accountzerobase.dto.UseBalance;
 import com.example.accountzerobase.exception.AccountException;
 import com.example.accountzerobase.service.TransactionService;
@@ -30,17 +30,39 @@ public class TransactionController {
 	@PostMapping("/transaction/use")
 	public UseBalance.Response useBalance(
 			@Valid @RequestBody UseBalance.Request request
-	){
+	) {
 
 		try {
 			return UseBalance.Response.from(
 					transactionService.useBalance(request.getUserId(),
 							request.getAccountNumber(), request.getAmount())
 			);
-		}catch (AccountException e) {
+		} catch (AccountException e) {
 			log.error("Failed to use balance. ");
 
 			transactionService.saveFailedUseTransaction(
+					request.getAccountNumber(),
+					request.getAmount()
+			);
+
+			throw e;
+		}
+	}
+
+	@PostMapping("/transaction/cancel")
+	public CancelBalance.Response cancelBalance(
+			@Valid @RequestBody CancelBalance.Request request
+	) {
+
+		try {
+			return CancelBalance.Response.from(
+					transactionService.cancelBalance(request.getTransactionId(),
+							request.getAccountNumber(), request.getAmount())
+			);
+		} catch (AccountException e) {
+			log.error("Failed to use balance. ");
+
+			transactionService.saveFailedCancelTransaction(
 					request.getAccountNumber(),
 					request.getAmount()
 			);

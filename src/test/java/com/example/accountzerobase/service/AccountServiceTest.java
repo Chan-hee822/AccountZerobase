@@ -264,7 +264,7 @@ class AccountServiceTest {
 
 	@Test
 	void successGetAccountsByUserId() {
-	    //given
+		//given
 		AccountUser cobi = AccountUser.builder()
 				.id(12L)
 				.name("Cobi").build();
@@ -290,22 +290,22 @@ class AccountServiceTest {
 		given(accountRepository.findByAccountUser(any()))
 				.willReturn(accounts);
 
-	    //when
+		//when
 		List<AccountDto> accountDtos = accountService.getAccountsByUserId(1L);
 
 		//then
 		assertEquals(3, accountDtos.size());
-		assertEquals("1111111111",accountDtos.get(0).getAccountNumber());
-		assertEquals(1000,accountDtos.get(0).getBalance());
-		assertEquals("2222222222",accountDtos.get(1).getAccountNumber());
-		assertEquals(2000,accountDtos.get(1).getBalance());
-		assertEquals("3333333333",accountDtos.get(2).getAccountNumber());
-		assertEquals(3000,accountDtos.get(2).getBalance());
+		assertEquals("1111111111", accountDtos.get(0).getAccountNumber());
+		assertEquals(1000, accountDtos.get(0).getBalance());
+		assertEquals("2222222222", accountDtos.get(1).getAccountNumber());
+		assertEquals(2000, accountDtos.get(1).getBalance());
+		assertEquals("3333333333", accountDtos.get(2).getAccountNumber());
+		assertEquals(3000, accountDtos.get(2).getBalance());
 	}
 
 	@Test
 	void failedToGetAccounts() {
-	    //given
+		//given
 		given(accountUserRepository.findById(anyLong()))
 				.willReturn(Optional.empty());
 

@@ -1,12 +1,9 @@
 package com.example.accountzerobase.repository;
 
-import com.example.accountzerobase.domain.Account;
-import com.example.accountzerobase.domain.AccountUser;
 import com.example.accountzerobase.domain.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 
@@ -15,5 +12,7 @@ import java.util.Optional;
 @Repository
 public interface TransactionRepository
 		extends JpaRepository<Transaction, Long> {
+
+	Optional<Transaction> findByTransactionId(String transactionId);
 
 }

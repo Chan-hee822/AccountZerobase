@@ -1,6 +1,5 @@
 package com.example.accountzerobase.domain;
 
-import com.example.accountzerobase.type.AccountStatus;
 import com.example.accountzerobase.type.TransactionResultType;
 import com.example.accountzerobase.type.TransactionType;
 import lombok.*;
