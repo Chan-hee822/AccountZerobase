@@ -1,5 +1,6 @@
 package com.example.accountzerobase.dto;
 
+import com.example.accountzerobase.aop.AccountLockIdInterface;
 import com.example.accountzerobase.type.TransactionResultType;
 import lombok.*;
 
@@ -9,15 +10,15 @@ import java.time.LocalDateTime;
 public class CancelBalance {
 	/**
 	 * {
-		 * "transactionId":"asdfasdfasdfasdfa,
-		 * "accountNumber":"1000000000",
-		 * "amount":1000
+	 * "transactionId":"asdfasdfasdfasdfa,
+	 * "accountNumber":"1000000000",
+	 * "amount":1000
 	 * }
 	 */
 	@Getter
 	@Setter
 	@AllArgsConstructor
-	public static class Request {
+	public static class Request implements AccountLockIdInterface {
 		@NotBlank
 		private String transactionId;
 
@@ -33,11 +34,11 @@ public class CancelBalance {
 
 	/**
 	 * {
-		 * "accountNumber":"1000000000",
-		 * "transactionResult":"S",
-		 * "transactionId":"5d011bb6d82cc50aecf8e27cdabb6772",
-		 * "amount":1000,
-		 * "transactedAt":"2022-06-01T23:26:14.671859"
+	 * "accountNumber":"1000000000",
+	 * "transactionResult":"S",
+	 * "transactionId":"5d011bb6d82cc50aecf8e27cdabb6772",
+	 * "amount":1000,
+	 * "transactedAt":"2022-06-01T23:26:14.671859"
 	 * }
 	 */
 

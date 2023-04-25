@@ -4,9 +4,11 @@ import com.example.accountzerobase.domain.Account;
 import com.example.accountzerobase.dto.AccountDto;
 import com.example.accountzerobase.dto.CreateAccount;
 import com.example.accountzerobase.dto.DeleteAccount;
+import com.example.accountzerobase.exception.AccountException;
 import com.example.accountzerobase.type.AccountStatus;
 import com.example.accountzerobase.service.AccountService;
-import com.example.accountzerobase.service.RedisTestService;
+
+import com.example.accountzerobase.type.ErrorCode;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -20,6 +22,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.example.accountzerobase.type.ErrorCode.*;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
@@ -33,9 +36,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class AccountControllerTest {
     @MockBean
     private AccountService accountService;
-
-    @MockBean
-    private RedisTestService redisTestService;
 
     @Autowired
     private MockMvc mockMvc;
@@ -138,4 +138,19 @@ class AccountControllerTest {
                 .andDo(print());
     }
 
+    @Test
+    void failGetAccount() throws Exception {
+        //given
+        given(accountService.getAccount(anyLong()))
+                .willThrow(new AccountException(ACCOUNT_NOT_FOUND));
+
+        //when
+        //then
+        mockMvc.perform(get("/account/1234"))
+                .andDo(print())
+                .andExpect(jsonPath("$.errorCode").value("ACCOUNT_NOT_FOUND"))
+                .andExpect(jsonPath("$.errorMessage").value("계좌가 없습니다."))
+                .andExpect(status().isOk());
+
+    }
 }
