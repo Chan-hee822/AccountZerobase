@@ -25,7 +25,7 @@ AccountZeroBase는 Java와 Spring Framework를 사용하여 개발된 계좌 관
 1. Git 저장소를 클론합니다.
 
 ```bash
-git clone https://github.com/your-username/AccountZeroBase.git
+git clone https://github.com/your-username/AccountZeroBase.git```
 
 ## 사용법
 
