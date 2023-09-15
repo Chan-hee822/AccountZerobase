@@ -26,3 +26,21 @@ AccountZeroBase는 Java와 Spring Framework를 사용하여 개발된 계좌 관
 
 ```bash
 git clone https://github.com/your-username/AccountZeroBase.git
+
+## 사용법
+
+프로젝트를 실행하고 REST API 엔드포인트에 대한 요청을 수행할 수 있습니다.
+
+- `[POST] /account`: 계좌 생성 요청을 보내어 새로운 계좌를 생성합니다.
+
+- `[DELETE] /account`: 계좌 삭제 요청을 보내어 계좌를 삭제합니다.
+
+- `[GET] /account`: 사용자 ID를 기반으로 사용자의 계좌 목록을 가져옵니다.
+
+- `[GET] /account/{id}`: 계좌 ID를 기반으로 특정 계좌의 정보를 가져옵니다.
+
+- `[POST] /transaction/use`: 잔액 사용 요청을 보내어 계좌에서 잔액을 사용합니다.
+
+- `[POST] /transaction/cancel`: 잔액 사용 취소 요청을 보내어 이전 잔액 사용 거래를 취소합니다.
+
+- `[GET] /transaction/{transactionId}`: 거래 ID를 기반으로 특정 거래 정보를 가져옵니다.
