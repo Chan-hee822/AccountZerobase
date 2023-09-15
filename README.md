@@ -20,13 +20,6 @@ AccountZeroBase는 Java와 Spring Framework를 사용하여 개발된 계좌 관
 
 - `TransactionService`: 거래 관련 비즈니스 로직을 처리하는 서비스 클래스입니다.
 
-## 설치 및 설정
-
-1. Git 저장소를 클론합니다.
-
-```bash
-git clone https://github.com/your-username/AccountZeroBase.git```
-
 ## 사용법
 
 프로젝트를 실행하고 REST API 엔드포인트에 대한 요청을 수행할 수 있습니다.
@@ -44,3 +37,11 @@ git clone https://github.com/your-username/AccountZeroBase.git```
 - `[POST] /transaction/cancel`: 잔액 사용 취소 요청을 보내어 이전 잔액 사용 거래를 취소합니다.
 
 - `[GET] /transaction/{transactionId}`: 거래 ID를 기반으로 특정 거래 정보를 가져옵니다.
+
+## 설치 및 설정
+
+1. Git 저장소를 클론합니다.
+
+```bash
+git clone https://github.com/your-username/AccountZeroBase.git
+
